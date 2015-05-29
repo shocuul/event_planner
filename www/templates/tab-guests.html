@@ -1,0 +1,20 @@
+<ion-view view-title="Invitados">
+  <ion-nav-buttons side="right">
+      <button class="button" ng-click="modal.show()">
+        Agregar
+      </button>
+    </ion-nav-buttons>
+  <ion-content class="padding">
+    <p>Total de invitados: {{total}}</p>
+    <div class="list">
+      <a class="item item-icon-left" href="#" collection-repeat="guest in listOfGuest">
+        <i class="icon ion-person-stalker"></i>
+        {{guest.familyName}}
+        <span class="badge badge-assertive">{{guest.numberOfPeople}}</span>
+      </a>
+    </div>
+    <button class="button button-small button-assertive" ng-click="reset()">
+  Reset
+  </button>
+  </ion-content>
+</ion-view>
