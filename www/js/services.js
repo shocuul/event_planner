@@ -12,10 +12,12 @@ angular.module('starter.services', [])
       $window.localStorage[key] = JSON.stringify(value);
     },
     getObject: function(key) {
-      return JSON.parse($window.localStorage[key] || '{}');
+      // return JSON.parse($window.localStorage[key] || '{}');
+      return JSON.parse($window.localStorage[key] || null);
     }
   }
 })
+
 
 .factory('Guests',function(){
   var Guests = function(familyName, numberOfPeople){
@@ -30,18 +32,16 @@ angular.module('starter.services', [])
 })
 
 .factory('ListOfGuests', function(Guests,$localStorage){
-  try{
-    var list = $localStorage.getObject('list');
-    var total = $localStorage.get('totalOfGuest');
-    console.log(total + list);
-  }catch(err){
-    var list = [];
-    var total = 0;
-    console.log(err.message);
-    console.log(list);
-  }
+  var list = $localStorage.getObject('list');
+  var total = $localStorage.get('totalOfGuest');
+  console.log("Total:" + total);
+  console.log("Lista:" + list);
+
   if(total == undefined){
     total = 0;
+  }
+  if(list == null){
+    list = [];
   }
   return{
     all : function(){
@@ -76,6 +76,60 @@ angular.module('starter.services', [])
   }
 })
 
+.factory('Table', function(){
+  var Table = function(id,name,chairs){
+    this.id = id;
+    this.name = name;
+    this.chairs = chairs;
+    this.guests = null;
+  }
+  Table.prototype.addGuest = function (guests) {
+    if(this.guests == null){
+      this.guests = [];
+    }
+    if(this.chairs < guests.numberOfPeople){
+      return "No alcanzas las sillas";
+    }else if ((this.guests.length + guests.numberOfPeople) > this.chairs) {
+      return "Sillas insuficientes";
+    }else{
+      this.guests.push(guests);
+      return "Agregado correctamente";
+    }
+    return null;
+  };
+  return Table;
+})
+
+.factory('ListTable',function(Table,$localStorage){
+  var list = $localStorage.getObject('list-table');
+  if (list == null){
+    list = [];
+  }
+  return{
+    all : function(){
+      return list;
+    },
+    generate : function(numberOfTable,numberOfChairs){
+      for (var i = 0; i < numberOfTable; i++) {
+        var table = new Table((i+1),"Table "+i,numberOfChairs);
+        list.push(table);
+      }
+      $localStorage.setObject('list-table',list);
+    },
+    get : function(tableId){
+      for (var i = 0; i < list.length; i++) {
+        if(list[i].id === parseInt(tableId)){
+          return list[i];
+        }
+      }
+      return null;
+    },
+    reset : function(){
+      list.length = 0;
+      $localStorage.setObject('list-table',list);
+    }
+  }
+})
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

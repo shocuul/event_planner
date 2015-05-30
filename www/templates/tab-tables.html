@@ -1,0 +1,33 @@
+<ion-view view-title="Mesas">
+  <ion-content ng-init="check()">
+    <div class="padding" ng-show="createTable">
+      <p style="text-align:center; padding-top:2em;">No hay mesas creadas</p>
+      <button class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="modal.show()">
+        Crear Mesas
+      </button>
+    </div>
+
+    <div class="list" collection-repeat="table in listTable">
+        <div class="item item-divider">
+          Numero {{table.id}} - {{table.name}}
+        </div>
+        <div class="item item-text-wrap">
+          {{table}}
+        </div>
+        <div class="item item-divider">
+          <button class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showList(table.id)">
+            Agregar Invitados a esta mesa
+          </button>
+        </div>
+        <!-- <a href="#" class="item">
+
+        </a> -->
+
+    </div>
+      <div class="card">
+      <button class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="reset()" ng-hide="createTable">
+        Reset
+      </button>
+    </div>
+  </ion-content>
+</ion-view>
