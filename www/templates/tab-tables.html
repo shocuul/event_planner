@@ -7,16 +7,25 @@
       </button>
     </div>
 
-    <div class="list" collection-repeat="table in listTable">
+    <div class="list" ng-repeat="table in listTable">
         <div class="item item-divider">
           Numero {{table.id}} - {{table.name}}
         </div>
-        <div class="item item-text-wrap">
-          {{table}}
-        </div>
+        <!-- <div class="item item-text-wrap">
+          {{table.guests}}
+        </div> -->
+        <tabledraw table="table"></tabledraw>
+        <ul>
+          <li ng-repeat="guest in table.guests">
+            {{guest.familyName}}
+          </li>
+        </ul>
         <div class="item item-divider">
-          <button class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showList(table.id)">
+          <button ng-show="checkTableChairsAvailable(table)" class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showList(table.id)">
             Agregar Invitados a esta mesa
+          </button>
+          <button ng-show="checkTableWhenAnyGuestPresent(table)" class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showList(table.id)">
+            Quitar invitados de la mesa
           </button>
         </div>
         <!-- <a href="#" class="item">

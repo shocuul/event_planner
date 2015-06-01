@@ -9,7 +9,8 @@ angular.module('starter.controllers', [])
 		$scope.modal = modal;
 	});
   $scope.addGuest = function(data){
-    var guest = new Guests(data.familyName, data.numberOfPeople);
+    var id = $scope.listOfGuest.length + 1;
+    var guest = new Guests(id,data.familyName, data.numberOfPeople);
     data.familyName = '';
     data.numberOfPeople = '';
     ListOfGuests.add(guest);
@@ -30,12 +31,12 @@ angular.module('starter.controllers', [])
   console.log($scope.listTable);
   $scope.listOfGuest = ListOfGuests.all();
   $scope.selectedTable = null;
-  var test = [];
-  var testTable1 = new Table(20,"Test",10);
-  var testTable2 = new Table(20,"Test",10);
-  test.push(testTable1);
-  test.push(testTable2);
-  console.log(test);
+  // var test = [];
+  // var testTable1 = new Table(20,"Test",10);
+  // var testTable2 = new Table(20,"Test",10);
+  // test.push(testTable1);
+  // test.push(testTable2);
+  //console.log(test);
   $ionicModal.fromTemplateUrl('templates/new-tables.html',{
     scope: $scope
   }).then(function(modal){
@@ -46,13 +47,35 @@ angular.module('starter.controllers', [])
   }).then(function(modal){
     $scope.modalList = modal;
   })
+
+  $scope.checkTableChairsAvailable = function(table){
+    //console.log(table.chairsOcuped());
+    if(table.chairsOcuped() < table.chairs){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  $scope.checkTableWhenAnyGuestPresent = function(table){
+    if(table.guests != null || table.guests.length === 0){
+      return false;
+    }else{
+      return true;
+    }
+  }
   $scope.showList = function(id){
     $scope.selectedTable = ListTable.get(id);
     $scope.modalList.show();
-    console.log($scope.selectedTable);
+    //console.log($scope.selectedTable);
   }
   $scope.asignTable = function(guest){
-    $scope.selectedTable.addGuest(guest);
+    var mensaje = $scope.selectedTable.addGuest(guest);
+    // var selectedGuest = ListOfGuests.get(guest.familyName);
+    //guest.asignTable($scope.selectedTable);
+    alert(mensaje);
+    ListTable.update();
+    ListOfGuests.update();
+    $scope.modalList.hide();
   }
   $scope.check = function(){
     if($scope.listTable.length === 0){
@@ -63,11 +86,10 @@ angular.module('starter.controllers', [])
     }
   }
 
-
-
   $scope.configureTables = function(data){
     ListTable.generate(data.numberOfTable,data.numberOfChairs);
     $scope.modal.hide();
+    console.log($scope.listTable);
     $scope.check();
   }
   $scope.reset = function(){

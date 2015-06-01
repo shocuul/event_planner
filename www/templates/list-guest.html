@@ -7,7 +7,7 @@
 
         <ul class="list">
 
-            <li class="item" collection-repeat="guest in listOfGuest" ng-click="asignTable(guest)">
+            <li class="item" collection-repeat="guest in listOfGuest | filter:{table:null}" ng-click="asignTable(guest)">
               Familia: {{guest.familyName}} - Numero de Personas: {{guest.numberOfPeople}}
             </li>
         </ul>

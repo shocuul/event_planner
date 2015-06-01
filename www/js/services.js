@@ -20,13 +20,14 @@ angular.module('starter.services', [])
 
 
 .factory('Guests',function(){
-  var Guests = function(familyName, numberOfPeople){
+  var Guests = function(id, familyName, numberOfPeople){
+    this.id = id
     this.familyName = familyName;
     this.numberOfPeople = numberOfPeople;
     this.table = null;
   }
   Guests.prototype.asignTable = function (table) {
-    this.table = table;
+    this.table = table.id;
   };
   return Guests;
 })
@@ -42,6 +43,10 @@ angular.module('starter.services', [])
   }
   if(list == null){
     list = [];
+  }else{
+    for (var i = 0; i < list.length; i++) {
+      list[i].__proto__ = Guests.prototype;
+    }
   }
   return{
     all : function(){
@@ -55,9 +60,9 @@ angular.module('starter.services', [])
       console.log(list);
 
     },
-    get : function(familyName){
+    get : function(guestId){
       for (var i = 0; i < list.length; i++) {
-        if(list[i].familyName === familyName){
+        if(list[i].id === guestId){
           return list[i];
         }
       }
@@ -72,6 +77,9 @@ angular.module('starter.services', [])
     },
     totalOfGuest : function(){
       return total;
+    },
+    update : function(){
+      $localStorage.setObject('list',list);
     }
   }
 })
@@ -81,21 +89,33 @@ angular.module('starter.services', [])
     this.id = id;
     this.name = name;
     this.chairs = chairs;
-    this.guests = null;
+    this.guests = [];
   }
   Table.prototype.addGuest = function (guests) {
     if(this.guests == null){
       this.guests = [];
     }
+    console.log("Numero de sillas " + this.chairsOcuped());
     if(this.chairs < guests.numberOfPeople){
       return "No alcanzas las sillas";
-    }else if ((this.guests.length + guests.numberOfPeople) > this.chairs) {
+    }else if ((this.chairsOcuped() + parseInt(guests.numberOfPeople)) > this.chairs) {
       return "Sillas insuficientes";
     }else{
       this.guests.push(guests);
+      guests.asignTable(this);
       return "Agregado correctamente";
     }
     return null;
+  };
+  Table.prototype.chairsOcuped = function () {
+    // body...
+    var chairsOcupped = 0;
+    if(this.guests != null){
+      for (var i = 0; i < this.guests.length; i++) {
+        chairsOcupped = chairsOcupped + parseInt(this.guests[i].numberOfPeople);
+      }
+    }
+    return chairsOcupped;
   };
   return Table;
 })
@@ -104,6 +124,10 @@ angular.module('starter.services', [])
   var list = $localStorage.getObject('list-table');
   if (list == null){
     list = [];
+  }else{
+    for (var i = 0; i < list.length; i++) {
+      list[i].__proto__ = Table.prototype;
+    }
   }
   return{
     all : function(){
@@ -126,6 +150,9 @@ angular.module('starter.services', [])
     },
     reset : function(){
       list.length = 0;
+      $localStorage.setObject('list-table',list);
+    },
+    update : function(){
       $localStorage.setObject('list-table',list);
     }
   }
