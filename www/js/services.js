@@ -29,6 +29,9 @@ angular.module('starter.services', [])
   Guests.prototype.asignTable = function (table) {
     this.table = table.id;
   };
+  Guests.prototype.deleteTable = function () {
+    this.table = null;
+  };
   return Guests;
 })
 
@@ -106,6 +109,16 @@ angular.module('starter.services', [])
       return "Agregado correctamente";
     }
     return null;
+  };
+
+  Table.prototype.deleteGuest = function (guest) {
+    if(this.guests == null || this.guests.length === 0){
+      return "No hay invitados asignados a esta Mesa";
+    }
+    this.guests.splice(this.guests.indexOf(guest),1);
+    guest.deleteTable();
+    return " "+ guest.familyName + " eliminada de la mesa " + this.id;
+
   };
   Table.prototype.chairsOcuped = function () {
     // body...

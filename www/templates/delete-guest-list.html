@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-assertive">
+        <h1 class="title">Eliminar Invitados</h1>
+        <button class="button button-clear button-primary" ng-click="deleteGuestList.hide()">Cancelar</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+
+        <ul class="list">
+
+            <li class="item" collection-repeat="guest in selectedTable.guests" ng-click="deleteGuest(guest)">
+              Familia: {{guest.familyName}} - Numero de Personas: {{guest.numberOfPeople}}
+            </li>
+        </ul>
+    </ion-content>
+</ion-modal-view>

@@ -24,7 +24,7 @@
           <button ng-show="checkTableChairsAvailable(table)" class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showList(table.id)">
             Agregar Invitados a esta mesa
           </button>
-          <button ng-show="checkTableWhenAnyGuestPresent(table)" class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showList(table.id)">
+          <button ng-hide="checkTableWhenAnyGuestPresent(table)" class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showDeleteList(table.id)">
             Quitar invitados de la mesa
           </button>
         </div>

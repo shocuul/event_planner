@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-
+// ==== Guests Controller ====
 .controller('GuestsCtrl', function($scope,ListOfGuests,$ionicModal,Guests) {
   $scope.listOfGuest = ListOfGuests.all();
   $scope.total = ListOfGuests.totalOfGuest();
@@ -26,6 +26,7 @@ angular.module('starter.controllers', [])
   }
 })
 
+// ==== Tables Controller
 .controller('TablesCtrl', function($scope,ListOfGuests,ListTable,$ionicModal,Table) {
   $scope.listTable = ListTable.all();
   console.log($scope.listTable);
@@ -48,6 +49,12 @@ angular.module('starter.controllers', [])
     $scope.modalList = modal;
   })
 
+  $ionicModal.fromTemplateUrl('templates/delete-guest-list.html',{
+    scope : $scope
+  }).then(function(modal){
+    $scope.deleteGuestList = modal;
+  })
+
   $scope.checkTableChairsAvailable = function(table){
     //console.log(table.chairsOcuped());
     if(table.chairsOcuped() < table.chairs){
@@ -63,10 +70,22 @@ angular.module('starter.controllers', [])
       return true;
     }
   }
+  $scope.showDeleteList = function(id){
+    $scope.selectedTable = ListTable.get(id);
+    $scope.deleteGuestList.show();
+  }
+
   $scope.showList = function(id){
     $scope.selectedTable = ListTable.get(id);
     $scope.modalList.show();
     //console.log($scope.selectedTable);
+  }
+  $scope.deleteGuest = function(guest){
+    var mensaje = $scope.selectedTable.deleteGuest(guest);
+    alert(mensaje);
+    ListTable.update();
+    ListOfGuests.update();
+    $scope.deleteGuestList.hide();
   }
   $scope.asignTable = function(guest){
     var mensaje = $scope.selectedTable.addGuest(guest);
