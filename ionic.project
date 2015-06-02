@@ -1,4 +1,12 @@
 {
   "name": "TablePlanner",
-  "app_id": "15ffc693"
+  "app_id": "15ffc693",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
 }

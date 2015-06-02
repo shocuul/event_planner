@@ -17,6 +17,13 @@ angular.module('starter.controllers', [])
     $scope.count();
     $scope.modal.hide();
   }
+  $scope.tableAvailable = function(guest){
+    if(guest.table != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
   $scope.reset = function(){
     ListOfGuests.reset();
     $scope.count();
@@ -27,7 +34,7 @@ angular.module('starter.controllers', [])
 })
 
 // ==== Tables Controller
-.controller('TablesCtrl', function($scope,ListOfGuests,ListTable,$ionicModal,Table) {
+.controller('TablesCtrl', function($scope,$ionicPopup,ListOfGuests,ListTable,$ionicModal,Table) {
   $scope.listTable = ListTable.all();
   console.log($scope.listTable);
   $scope.listOfGuest = ListOfGuests.all();
@@ -55,6 +62,77 @@ angular.module('starter.controllers', [])
     $scope.deleteGuestList = modal;
   })
 
+  $scope.rename = function(table){
+    $scope.renameData = {};
+    var renamePopup = $ionicPopup.show({
+      template:'<input type="text" ng-model="renameData.name">',
+      title: 'Ingrese el nombre de la mesa',
+      scope : $scope,
+      buttons: [{
+        text : 'Cancelar'
+      },
+      { text : '<b>Guardar</b>',
+        type : 'button-positive',
+        onTap : function(e){
+          if(!$scope.renameData.name){
+            e.preventDefault();
+            //console.log("Nuevo nombre " + $scope.renameData.name);
+          }else{
+            table.rename($scope.renameData.name);
+            ListTable.update();
+            //console.log("Nuevo nombre en else" + $scope.renameData.name)
+          }
+        }}]
+    });
+    renamePopup.then(function(res){
+      console.log('Tapped!',res);
+    });
+  }
+
+  $scope.setCircleColor = function(guests,guest){
+    var className = '';
+    var indexColor = guests.indexOf(guest);
+    console.log("Color Seleccionado " + indexColor);
+    switch (indexColor) {
+      case 0:
+        className = 'primero';
+        break;
+      case 1:
+        className = 'segundo';
+        break;
+      case 2:
+        className = 'tercero';
+        break;
+      case 3:
+        className = 'cuarto';
+        break;
+      case 4:
+        className = 'quinto';
+        break;
+      case 5:
+        className = 'sexto';
+        break;
+      case 6:
+        className = 'septimo';
+        break;
+      case 7:
+        className = 'octavo';
+        break;
+      case 8:
+        className = 'noveno';
+        break;
+      case 9:
+        className = 'decimo';
+        break;
+      default:
+        console.log('In default case');
+        break;
+
+    }
+    //console.log(guests.length + " ID " + guest.id);
+    return className;
+
+  }
   $scope.checkTableChairsAvailable = function(table){
     //console.log(table.chairsOcuped());
     if(table.chairsOcuped() < table.chairs){
@@ -63,11 +141,11 @@ angular.module('starter.controllers', [])
       return false;
     }
   }
-  $scope.checkTableWhenAnyGuestPresent = function(table){
-    if(table.guests != null || table.guests.length === 0){
-      return false;
-    }else{
+  $scope.tableEmpty = function(table){
+    if(table.guests == null || table.guests.length === 0){
       return true;
+    }else{
+      return false;
     }
   }
   $scope.showDeleteList = function(id){

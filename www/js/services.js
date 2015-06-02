@@ -111,6 +111,9 @@ angular.module('starter.services', [])
     return null;
   };
 
+  Table.prototype.rename = function (newName) {
+    this.name = newName;
+  };
   Table.prototype.deleteGuest = function (guest) {
     if(this.guests == null || this.guests.length === 0){
       return "No hay invitados asignados a esta Mesa";

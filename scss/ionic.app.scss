@@ -20,4 +20,70 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+.badge{
+  &::after{
+    position: absolute;
+    top: 20px;
+    left: -10px;
+    content:'Personas';
+    font-size: .7em;
+    color: red;
 
+  }
+}
+.table-badge{
+  @extend .badge;
+  right: 90px !important;
+  &::after{
+    position: absolute;
+    top: 20px;
+    left: -1px;
+    content:'Mesa';
+    font-size: .7em;
+    color: blue;
+
+  }
+}
+.circle-table{
+  @extend .badge;
+  width: 1.5em;
+  height: 1.5em;
+  display: block;
+  color: #fff;
+}
+.primero{
+  background-color: #eb7616;
+}
+.segundo{
+  background-color: #df0bb0;
+}
+.tercero{
+  background-color:#1f9410;
+}
+.cuarto{
+  background-color: #a9ac86;
+}
+.quinto{
+  background-color: #539fc1;
+}
+.sexto{
+  background-color: #46cba7;
+}
+.septimo{
+  background-color: #7c699f;
+}
+.octavo{
+  background-color: #f7f9b2;
+}
+.noveno{
+  background-color: #487ab5;
+}
+.decimo{
+  background-color: #3ef0d7;
+}
+.divider-button{
+  position: absolute;
+  top: 2px;
+  display: flex;
+  right: 16px;
+}

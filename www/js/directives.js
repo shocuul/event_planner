@@ -27,15 +27,17 @@ angular.module('starter.directives', [])
       scope.context.fillStyle = "black";
       scope.context.stroke();
       scope.context.font = "30px Georgia";
-      scope.context.fillText(scope.table.id,centerX,centerY);
+      scope.context.fillText('Mesa ' + scope.table.id,centerX,centerY);
       scope.context.closePath();
       var colorPicker = ["#eb7616","#df0bb0","#1f9410","#a9ac86","#539fc1","#46cba7","#7c699f","#f7f9b2","#487ab5","#3ef0d7"]
       var colorCircle = [];
+      var letterCircle = [];
 
       if(scope.table.guests){
         for (var i = 0; i < scope.table.guests.length; i++) {
           for (var j = 0; j < scope.table.guests[i].numberOfPeople; j++) {
             colorCircle.push(colorPicker[i]);
+            letterCircle.push(scope.table.guests[i].familyName.charAt(0));
           }
         }
       }
@@ -50,16 +52,21 @@ angular.module('starter.directives', [])
         scope.context.arc(x, y, sm_rad, 0, 360, false);
         scope.context.fillStyle = colorCircle[i];
         scope.context.fill();
+        if(letterCircle[i] != undefined){
+        
+          scope.context.fillStyle = "white";
+          scope.context.fillText(letterCircle[i],x-10,y+10);
+        }
       }
 
 
-
+      // Watch Method for variable change update
       scope.$watch('table.guests', function(newValue,oldValue) {
         //console.log("nuevo valor" + newValue.name);
 
-
         scope.context.clearRect ( 0 , 0 , scope.canvas.width, scope.canvas.height );
         var colorCircle = [];
+        var letterCircle = [];
         //console.log("colorCircle length" + colorCircle.length);
 
 
@@ -68,6 +75,7 @@ angular.module('starter.directives', [])
           for (var i = 0; i < newValue.length; i++) {
             for (var j = 0; j < newValue[i].numberOfPeople; j++) {
               colorCircle.push(colorPicker[i]);
+              letterCircle.push(newValue[i].familyName.charAt(0));
             }
           }
         }
@@ -82,6 +90,12 @@ angular.module('starter.directives', [])
           scope.context.arc(x, y, sm_rad, 0, 360, false);
           scope.context.fillStyle = colorCircle[i];
           scope.context.fill();
+          if(letterCircle[i] != undefined){
+
+            scope.context.fillStyle = "white";
+            scope.context.fillText(letterCircle[i],x-10,y+10);
+          }
+
         }
         //console.log(newValue);
       },true);

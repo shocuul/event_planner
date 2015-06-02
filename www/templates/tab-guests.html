@@ -9,9 +9,9 @@
     <div class="list">
       <a class="item item-icon-left" href="#" ng-repeat="guest in listOfGuest track by $index">
         <i class="icon ion-person-stalker"></i>
-        Familia: {{guest.familyName}}
+        {{guest.familyName}}
+        <span class="table-badge badge-positive" ng-show="tableAvailable(guest)">{{guest.table}}</span>
         <span class="badge badge-assertive">{{guest.numberOfPeople}}</span>
-        Mesa: {{guest.table}}
       </a>
 
     </div>

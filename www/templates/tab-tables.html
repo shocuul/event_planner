@@ -10,24 +10,32 @@
     <div class="list" ng-repeat="table in listTable">
         <div class="item item-divider">
           Numero {{table.id}} - {{table.name}}
+          <button class="button button-small button-clear button-assertive divider-button"  ng-click="rename(table)">
+          Renombrar
+          </button>
         </div>
         <!-- <div class="item item-text-wrap">
           {{table.guests}}
         </div> -->
         <tabledraw table="table"></tabledraw>
-        <ul>
-          <li ng-repeat="guest in table.guests">
-            {{guest.familyName}}
-          </li>
-        </ul>
         <div class="item item-divider">
           <button ng-show="checkTableChairsAvailable(table)" class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showList(table.id)">
             Agregar Invitados a esta mesa
           </button>
-          <button ng-hide="checkTableWhenAnyGuestPresent(table)" class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showDeleteList(table.id)">
+          <button ng-hide="tableEmpty(table)" class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="showDeleteList(table.id)">
             Quitar invitados de la mesa
           </button>
         </div>
+        <ul class="list" style="margin-bottom:0px;" ng-hide="tableEmpty(table)">
+          <div class="item item-divider">
+            Invitados
+          </div>
+          <li class="item" ng-repeat="guest in table.guests">
+            {{guest.familyName}}
+            <span class="circle-table" ng-class="setCircleColor(table.guests,guest)"> </span
+          </li>
+        </ul>
+
         <!-- <a href="#" class="item">
 
         </a> -->
