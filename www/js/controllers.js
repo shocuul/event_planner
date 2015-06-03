@@ -199,8 +199,97 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('ActionsCtrl', function($scope,$cordovaFile,$cordovaFileOpener2,ListTable) {
+  function fail(error){
+    console.log(error.code);
+  }
+  $scope.generatePDF = function(){
+    var doc = new jsPDF();
+    var tables = ListTable.all();
+    doc.setFontSize(40);
+    doc.text(20, 20, 'Lista de invitados');
+    doc.setFontSize(20);
+    var spacing = 30;
+    for (var i = 0; i < tables.length; i++) {
+       doc.text(20,spacing,tables[i].id.toString());
+       doc.text(30,spacing,tables[i].name);
+       doc.line(20, spacing+2, 100, spacing+2);
+       console.log(tables[i].guests);
+       spacing = spacing + 10;
+       console.log(spacing);
+       if(spacing > 250){
+         doc.addPage();
+         spacing = 20;
+       }
+       if(tables[i].guests != null){
+         doc.setFontSize(15);
+          for (var j = 0; j < tables[i].guests.length; j++) {
+            doc.text(20,spacing,tables[i].guests[j].familyName);
+            doc.text(90,spacing,tables[i].guests[j].numberOfPeople.toString());
+            spacing += 10;
+          }
+          doc.setFontSize(20);
+       }
+
+
+    }
+    // doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+    // doc.addPage();
+    // doc.text(20, 20, 'Do you like that?');
+    // doc.setFont("courier");
+    // doc.setFontType("normal");
+    // doc.text(20, 30, 'This is a PDF document generated using JSPDF.');
+    // doc.text(20, 50, 'YES, Inside of PhoneGap!');
+    if(!window.cordova){
+      console.log("en Browser");
+      doc.save('Test.pdf');
+    }else{
+    var pdfOutput = doc.output();
+    console.log(pdfOutput);
+    console.log("file system...");
+    // try{
+    //   console.log('Guardar Archivo :requestFileSystem');
+    //   window.requestFileSystem(LocalFileSystem.PERSISTENT,0,gotFS,fail)
+    // }
+    var pathTmp = '';
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+
+     console.log("Nombre: "+fileSystem.name);
+     console.log("Nombre Root: "+fileSystem.root.name);
+     console.log("Path del FileSystem "+fileSystem.root.fullPath);
+
+       fileSystem.root.getFile("test.pdf", {create: true}, function(entry) {
+          var fileEntry = entry;
+          pathTmp = entry.toURL();
+          console.log("URL del archivo" + pathTmp);
+          console.log(entry);
+
+          entry.createWriter(function(writer) {
+             writer.onwrite = function(evt) {
+             console.log("write success");
+          };
+
+          console.log("writing to file");
+             writer.write( pdfOutput );
+          }, function(error) {
+             console.log(error);
+          });
+
+       }, function(error){
+          console.log(error);
+       });
+    },
+    function(event){
+     console.log( evt.target.error.code );
+    });
+    $cordovaFileOpener2.open(
+    cordova.file.documentsDirectory+'/test.pdf',
+    'application/pdf'
+    ).then(function() {
+        // file opened successfully
+    }, function(err) {
+        // An error occurred. Show a message to the user
+    });
+  }
+  }
 });

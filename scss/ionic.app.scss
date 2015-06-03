@@ -3,23 +3,84 @@ To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
 
 For example, you might change some of the default colors:
-
+*/
 $light:                           #fff !default;
-$stable:                          #f8f8f8 !default;
-$positive:                        #387ef5 !default;
-$calm:                            #11c1f3 !default;
+$stable:                          #0c6a91 !default;
+$positive:                        #0097c8 !default;
+$calm:                            #8A1C7C !default;
 $balanced:                        #33cd5f !default;
 $energized:                       #ffc900 !default;
-$assertive:                       #ef473a !default;
-$royal:                           #886aea !default;
+$assertive:                       #8A1C7C !default;
+$royal:                           #0c6a91 !default;
 $dark:                            #444 !default;
+/*
 */
+// Include all of Ionic
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+@import "www/lib/ionic/scss/ionic";
 
 // The path for our ionicons font files, relative to the built CSS in www/css
-$ionicons-font-path: "../lib/ionic/fonts" !default;
+$azul: #0097c8;
+$azul-obscuro: #0c6a91;
+$fondo-azul: #131b23;
+$morado-claro: #8A1C7C;
+$morado-obscuro: #361134;
+$divider : #402039;
 
-// Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
+.pane{
+  background-color: #131b23;
+}
+body{
+  color : #fff;
+}
+.bar.bar-stable{
+  border-color: #361134;
+  border-bottom: 0px solid white;
+}
+.bar.bar-stable .title{
+  color: #fcfcfc;
+}
+.tabs{
+  border-color: $morado-obscuro;
+}
+.tabs-striped .tabs{
+  background-color: $azul;
+  border-color: $morado-obscuro;
+}
+.item-divider{
+  color: white;
+  background-color: $divider !important;
+}
+ion-tabs.tabs-color-active-positive .tab-item.tab-item-active{
+  color: #8A1C7C;
+}
+ion-tabs.tabs-color-active-positive .tab-item{
+  color: $morado-obscuro;
+}
+.list{
+  background-color: $morado-obscuro;
+  .item{
+    color: white;
+    background-color: $morado-obscuro;
+    border-color: $morado-claro;
+  }
+}
+.modal{
+  background-color: $fondo-azul;
+}
+.input-label{
+  color: darken(white, 30);
+}
+input[type="text"]{
+  color:white;
+}
+.bar{
+  .bar-stable{
+      color: #8A1C7C;
+  }
+}
+
+
 .badge{
   &::after{
     position: absolute;
@@ -50,6 +111,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   height: 1.5em;
   display: block;
   color: #fff;
+  &::after{
+    content: '';
+  }
 }
 .primero{
   background-color: #eb7616;

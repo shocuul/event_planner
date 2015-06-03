@@ -42,7 +42,7 @@ angular.module('starter.directives', [])
         }
       }
       for (var i = colorCircle.length; i < scope.table.chairs; i++) {
-        colorCircle.push("#000000");
+        colorCircle.push("#FFFFFF");
       }
       for (var i = 0; i < parseInt(scope.table.chairs); ++i) {
         scope.context.beginPath();
@@ -53,7 +53,7 @@ angular.module('starter.directives', [])
         scope.context.fillStyle = colorCircle[i];
         scope.context.fill();
         if(letterCircle[i] != undefined){
-        
+
           scope.context.fillStyle = "white";
           scope.context.fillText(letterCircle[i],x-10,y+10);
         }
@@ -80,7 +80,7 @@ angular.module('starter.directives', [])
           }
         }
         for (var i = colorCircle.length; i < scope.table.chairs; i++) {
-          colorCircle.push("#000000");
+          colorCircle.push("#FFFFFF");
         }
         for (var i = 0; i < parseInt(scope.table.chairs); ++i) {
           scope.context.beginPath();
