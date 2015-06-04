@@ -38,8 +38,8 @@ angular.module('starter.services', [])
 .factory('ListOfGuests', function(Guests,$localStorage){
   var list = $localStorage.getObject('list');
   var total = $localStorage.get('totalOfGuest');
-  console.log("Total:" + total);
-  console.log("Lista:" + list);
+  //console.log("Total:" + total);
+  //console.log("Lista:" + list);
 
   if(total == undefined){
     total = 0;
@@ -60,7 +60,7 @@ angular.module('starter.services', [])
       total = parseInt(total) + parseInt(Guests.numberOfPeople);
       $localStorage.setObject('list',list);
       $localStorage.set('totalOfGuest',total);
-      console.log(list);
+      //console.log(list);
 
     },
     get : function(guestId){
@@ -76,7 +76,7 @@ angular.module('starter.services', [])
       $localStorage.setObject('list',list);
       total = 0;
       $localStorage.set('totalOfGuest',total);
-      console.log(list);
+      //console.log(list);
     },
     totalOfGuest : function(){
       return total;
@@ -98,7 +98,7 @@ angular.module('starter.services', [])
     if(this.guests == null){
       this.guests = [];
     }
-    console.log("Numero de sillas " + this.chairsOcuped());
+    //console.log("Numero de sillas " + this.chairsOcuped());
     if(this.chairs < guests.numberOfPeople){
       return "No alcanzas las sillas";
     }else if ((this.chairsOcuped() + parseInt(guests.numberOfPeople)) > this.chairs) {

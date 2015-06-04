@@ -7671,7 +7671,8 @@ a.button {
   background-color: #131b23; }
 
 body {
-  color: #fff; }
+  color: #fff;
+  background-color: #131b23; }
 
 .bar.bar-stable {
   border-color: #361134;
@@ -7777,3 +7778,18 @@ input[type="text"] {
   top: 2px;
   display: flex;
   right: 16px; }
+
+.popup-body input[type="text"] {
+  color: #000; }
+
+.popover {
+  background-color: #131b23 !important; }
+
+.ng-pristine {
+  color: #000; }
+
+.popup-body {
+  color: black; }
+
+.item-complex .item-content {
+  background-color: inherit; }

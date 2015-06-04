@@ -2,6 +2,7 @@ angular.module('starter.controllers', [])
 // ==== Guests Controller ====
 .controller('GuestsCtrl', function($scope,ListOfGuests,$ionicModal,Guests) {
   $scope.listOfGuest = ListOfGuests.all();
+  $scope.listCanSwipe = true;
   $scope.total = ListOfGuests.totalOfGuest();
   $ionicModal.fromTemplateUrl('templates/new-guest.html',{
 		scope: $scope
@@ -36,7 +37,7 @@ angular.module('starter.controllers', [])
 // ==== Tables Controller
 .controller('TablesCtrl', function($scope,$ionicPopup,ListOfGuests,ListTable,$ionicModal,Table) {
   $scope.listTable = ListTable.all();
-  console.log($scope.listTable);
+  //console.log($scope.listTable);
   $scope.listOfGuest = ListOfGuests.all();
   $scope.selectedTable = null;
   // var test = [];
@@ -85,14 +86,14 @@ angular.module('starter.controllers', [])
         }}]
     });
     renamePopup.then(function(res){
-      console.log('Tapped!',res);
+      //console.log('Tapped!',res);
     });
   }
 
   $scope.setCircleColor = function(guests,guest){
     var className = '';
     var indexColor = guests.indexOf(guest);
-    console.log("Color Seleccionado " + indexColor);
+    //console.log("Color Seleccionado " + indexColor);
     switch (indexColor) {
       case 0:
         className = 'primero';
@@ -125,7 +126,7 @@ angular.module('starter.controllers', [])
         className = 'decimo';
         break;
       default:
-        console.log('In default case');
+        //console.log('In default case');
         break;
 
     }
@@ -177,7 +178,7 @@ angular.module('starter.controllers', [])
   $scope.check = function(){
     if($scope.listTable.length === 0){
       $scope.createTable = true;
-      console.log($scope.createTable);
+      //console.log($scope.createTable);
     }else{
       $scope.createTable = false;
     }
@@ -186,7 +187,7 @@ angular.module('starter.controllers', [])
   $scope.configureTables = function(data){
     ListTable.generate(data.numberOfTable,data.numberOfChairs);
     $scope.modal.hide();
-    console.log($scope.listTable);
+    //console.log($scope.listTable);
     $scope.check();
   }
   $scope.reset = function(){
@@ -199,9 +200,58 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('ActionsCtrl', function($scope,$cordovaFile,$cordovaFileOpener2,ListTable) {
-  function fail(error){
-    console.log(error.code);
+.controller('ActionsCtrl', function($scope,$cordovaFile,$cordovaFileOpener2,$localStorage,ListTable,$ionicPopover,$ionicPopup,$cordovaClipboard) {
+
+  //console.log(exportObject);
+  $ionicPopover.fromTemplateUrl('templates/accion-popover.html',{
+    scope : $scope
+  }).then(function(popover){
+    //console.log("popover configured");
+    $scope.popover = popover;
+  });
+
+  $scope.openPopover = function($event){
+    $scope.popover.show($event);
+  }
+
+
+  $scope.import = function(data){
+    var confirmPopup = $ionicPopup.confirm({
+      title : 'Advertencia',
+      template : '¿Esta seguro que desea eliminar los datos existentes para importar los nuevos?'
+    });
+    confirmPopup.then(function(res){
+      if(res){
+        console.log('De acuerdo');
+        var objectImport = JSON.parse(data.import);
+        $localStorage.set('list',objectImport.guest);
+        $localStorage.set('list-table',objectImport.tables);
+        console.log(objectImport);
+      }else{
+        console.log('Desacuerdo');
+      }
+    })
+
+  }
+
+  $scope.exportGuest = function(){
+    // list-table list
+    var exportObject = {
+      guest : null,
+      tables : null
+    }
+    exportObject.guest = $localStorage.get('list');
+    exportObject.tables = $localStorage.get('list-table');
+    var exportString = JSON.stringify(exportObject);
+    if(!window.cordova){
+      console.log(exportString);
+    }else{
+      $cordovaClipboard.copy(exportString).then(function(){
+        alert('Texto de exportado copiado a su portapapeles');
+      }, function(){
+        alert('Error interno favor de reportarlo');
+      });
+    }
   }
   $scope.generatePDF = function(){
     var doc = new jsPDF();
@@ -214,9 +264,9 @@ angular.module('starter.controllers', [])
        doc.text(20,spacing,tables[i].id.toString());
        doc.text(30,spacing,tables[i].name);
        doc.line(20, spacing+2, 100, spacing+2);
-       console.log(tables[i].guests);
+       //console.log(tables[i].guests);
        spacing = spacing + 10;
-       console.log(spacing);
+       //console.log(spacing);
        if(spacing > 250){
          doc.addPage();
          spacing = 20;
@@ -241,12 +291,12 @@ angular.module('starter.controllers', [])
     // doc.text(20, 30, 'This is a PDF document generated using JSPDF.');
     // doc.text(20, 50, 'YES, Inside of PhoneGap!');
     if(!window.cordova){
-      console.log("en Browser");
+      //console.log("en Browser");
       doc.save('Test.pdf');
     }else{
     var pdfOutput = doc.output();
-    console.log(pdfOutput);
-    console.log("file system...");
+    //console.log(pdfOutput);
+    //console.log("file system...");
     // try{
     //   console.log('Guardar Archivo :requestFileSystem');
     //   window.requestFileSystem(LocalFileSystem.PERSISTENT,0,gotFS,fail)
@@ -254,33 +304,33 @@ angular.module('starter.controllers', [])
     var pathTmp = '';
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 
-     console.log("Nombre: "+fileSystem.name);
-     console.log("Nombre Root: "+fileSystem.root.name);
-     console.log("Path del FileSystem "+fileSystem.root.fullPath);
+    //  console.log("Nombre: "+fileSystem.name);
+    //  console.log("Nombre Root: "+fileSystem.root.name);
+    //  console.log("Path del FileSystem "+fileSystem.root.fullPath);
 
        fileSystem.root.getFile("test.pdf", {create: true}, function(entry) {
           var fileEntry = entry;
           pathTmp = entry.toURL();
-          console.log("URL del archivo" + pathTmp);
-          console.log(entry);
+          // console.log("URL del archivo" + pathTmp);
+          // console.log(entry);
 
           entry.createWriter(function(writer) {
              writer.onwrite = function(evt) {
-             console.log("write success");
+             //console.log("write success");
           };
 
-          console.log("writing to file");
+          //console.log("writing to file");
              writer.write( pdfOutput );
           }, function(error) {
-             console.log(error);
+             //console.log(error);
           });
 
        }, function(error){
-          console.log(error);
+          //console.log(error);
        });
     },
     function(event){
-     console.log( evt.target.error.code );
+     //console.log( evt.target.error.code );
     });
     $cordovaFileOpener2.open(
     cordova.file.documentsDirectory+'/test.pdf',
