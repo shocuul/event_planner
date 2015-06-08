@@ -32,6 +32,10 @@ angular.module('starter.services', [])
   Guests.prototype.deleteTable = function () {
     this.table = null;
   };
+  Guests.prototype.update = function (familyName, numberOfPeople) {
+    this.familyName = familyName;
+    this.numberOfPeople = numberOfPeople;
+  };
   return Guests;
 })
 
@@ -77,6 +81,14 @@ angular.module('starter.services', [])
       total = 0;
       $localStorage.set('totalOfGuest',total);
       //console.log(list);
+    },
+    reload : function(){
+      list = $localStorage.getObject('list');
+      total = 0;
+      for (var i = 0; i < list.length; i++) {
+        total = total + parseInt(list[i].numberOfPeople);
+      }
+      $localStorage.set('totalOfGuest',total);
     },
     totalOfGuest : function(){
       return total;
@@ -151,10 +163,13 @@ angular.module('starter.services', [])
     },
     generate : function(numberOfTable,numberOfChairs){
       for (var i = 0; i < numberOfTable; i++) {
-        var table = new Table((i+1),"Table "+i,numberOfChairs);
+        var table = new Table((list.length+1),"Mesa "+i,numberOfChairs);
         list.push(table);
       }
       $localStorage.setObject('list-table',list);
+    },
+    reload : function(){
+      list = $localStorage.getObject('list-table');
     },
     get : function(tableId){
       for (var i = 0; i < list.length; i++) {

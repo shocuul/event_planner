@@ -13,7 +13,7 @@
         <span class="table-badge badge-positive" ng-show="tableAvailable(guest)">{{guest.table}}</span>
         <span class="badge badge-assertive">{{guest.numberOfPeople}}</span>
         <ion-option-button class="button-positive"
-                       ng-click="share(item)">
+                       ng-click="update(guest)">
           Editar
         </ion-option-button>
         <ion-option-button class="button-royal"
@@ -23,8 +23,8 @@
       </ion-item>
 
     </div>
-    <button class="button button-small button-assertive" ng-click="reset()">
-  Reset
-  </button>
+    <!-- <button class="button button-small button-assertive" ng-click="reset()">
+      Reset
+      </button> -->
   </ion-content>
 </ion-view>

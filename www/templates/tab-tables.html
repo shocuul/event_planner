@@ -1,4 +1,9 @@
 <ion-view view-title="Mesas">
+  <ion-nav-buttons side="right">
+      <button class="button button-clear button-calm" ng-click="modal.show()">
+        Agregar
+      </button>
+    </ion-nav-buttons>
   <ion-content ng-init="check()">
     <div class="padding" ng-show="createTable">
       <p style="text-align:center; padding-top:2em;">No hay mesas creadas</p>
@@ -41,10 +46,10 @@
         </a> -->
 
     </div>
-      <div class="card" ng-hide="createTable">
+      <!-- <div class="card" ng-hide="createTable">
       <button class="button button-small button-assertive button-clear" style="display:block; margin: 0 auto;" ng-click="reset()">
         Reset
       </button>
-    </div>
+          </div> -->
   </ion-content>
 </ion-view>

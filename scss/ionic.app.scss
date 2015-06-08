@@ -5,7 +5,7 @@ in ionic's _variables.scss file.
 For example, you might change some of the default colors:
 */
 $light:                           #fff !default;
-$stable:                          #0c6a91 !default;
+$stable:                          #0097c8 !default;
 $positive:                        #0097c8 !default;
 $calm:                            #8A1C7C !default;
 $balanced:                        #33cd5f !default;
@@ -72,7 +72,7 @@ ion-tabs.tabs-color-active-positive .tab-item{
 .input-label{
   color: darken(white, 30);
 }
-input[type="text"]{
+input[type="text"],input[type="number"]{
   color:white;
 }
 .bar{
@@ -89,7 +89,7 @@ input[type="text"]{
     left: -10px;
     content:'Personas';
     font-size: .7em;
-    color: red;
+    color: $morado-claro;
 
   }
 }
@@ -102,7 +102,7 @@ input[type="text"]{
     left: -1px;
     content:'Mesa';
     font-size: .7em;
-    color: blue;
+    color: $azul;
 
   }
 }
@@ -153,7 +153,7 @@ input[type="text"]{
   right: 16px;
 }
 .popup-body{
-  input[type="text"]{
+  input[type="text"],input[type="number"]{
     color:#000;
   }
 }

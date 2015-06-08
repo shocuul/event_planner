@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 // ==== Guests Controller ====
-.controller('GuestsCtrl', function($scope,ListOfGuests,$ionicModal,Guests) {
+.controller('GuestsCtrl', function($scope,ListOfGuests,$ionicModal,Guests,$ionicPopup,$ionicListDelegate) {
   $scope.listOfGuest = ListOfGuests.all();
   $scope.listCanSwipe = true;
   $scope.total = ListOfGuests.totalOfGuest();
@@ -31,6 +31,39 @@ angular.module('starter.controllers', [])
   }
   $scope.count = function(){
     $scope.total = ListOfGuests.totalOfGuest();
+  }
+  $scope.update = function(guest){
+    $scope.guestData = {};
+    $scope.guestData.familyName = guest.familyName;
+    $scope.guestData.numberOfPeople = parseInt(guest.numberOfPeople);
+    var renamePopup = $ionicPopup.show({
+      template:'<input type="text" ng-model="guestData.familyName"><input type="number" ng-model="guestData.numberOfPeople">',
+      title: 'Editar invitados',
+      scope : $scope,
+      buttons: [{
+        text : 'Cancelar',
+        onTap : function(e){
+          //e.preventDefault();
+          $ionicListDelegate.closeOptionButtons();
+        }
+      },
+      { text : '<b>Guardar</b>',
+        type : 'button-positive',
+        onTap : function(e){
+          if(!$scope.guestData.familyName){
+            e.preventDefault();
+            //console.log("Nuevo nombre " + $scope.renameData.name);
+          }else{
+            guest.update($scope.guestData.familyName,$scope.guestData.numberOfPeople);
+            ListOfGuests.update();
+            $ionicListDelegate.closeOptionButtons();
+            //console.log("Nuevo nombre en else" + $scope.renameData.name)
+          }
+        }}]
+    });
+    renamePopup.then(function(res){
+      //console.log('Tapped!',res);
+    });
   }
 })
 
@@ -200,7 +233,7 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('ActionsCtrl', function($scope,$cordovaFile,$cordovaFileOpener2,$localStorage,ListTable,$ionicPopover,$ionicPopup,$cordovaClipboard) {
+.controller('ActionsCtrl', function($scope,$cordovaFile,$cordovaFileOpener2,$localStorage,ListTable,$ionicPopover,$ionicPopup,$cordovaClipboard,ListTable,ListOfGuests) {
 
   //console.log(exportObject);
   $ionicPopover.fromTemplateUrl('templates/accion-popover.html',{
@@ -226,6 +259,8 @@ angular.module('starter.controllers', [])
         var objectImport = JSON.parse(data.import);
         $localStorage.set('list',objectImport.guest);
         $localStorage.set('list-table',objectImport.tables);
+        ListOfGuests.reload();
+        ListOfGuests.reload();
         console.log(objectImport);
       }else{
         console.log('Desacuerdo');
@@ -234,7 +269,7 @@ angular.module('starter.controllers', [])
 
   }
 
-  $scope.exportGuest = function(){
+  $scope.export = function(){
     // list-table list
     var exportObject = {
       guest : null,
@@ -252,6 +287,17 @@ angular.module('starter.controllers', [])
         alert('Error interno favor de reportarlo');
       });
     }
+  }
+  $scope.resetGuest = function(){
+    ListOfGuests.reset();
+    ListOfGuests.reload();
+    alert('Invitados reseteados correctamente');
+  }
+
+  $scope.resetTables = function(){
+    ListTable.reset();
+    ListTable.reload();
+    alert('Mesas reseteadas correctamente');
   }
   $scope.generatePDF = function(){
     var doc = new jsPDF();
