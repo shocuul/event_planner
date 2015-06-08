@@ -75,6 +75,9 @@ angular.module('starter.services', [])
       }
       return null;
     },
+    remove: function(guest) {
+      list.splice(list.indexOf(guest), 1);
+    },
     reset : function(){
       list.length = 0;
       $localStorage.setObject('list',list);

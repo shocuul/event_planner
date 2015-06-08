@@ -25,6 +25,17 @@ angular.module('starter.controllers', [])
       return false;
     }
   }
+  $scope.delete = function(guest){
+    //console.log('Press delete');
+    if(guest.table == null){
+      ListOfGuests.remove(guest);
+      ListOfGuests.update();
+      $ionicListDelegate.closeOptionButtons()
+    }else{
+      alert('Primero elimine a este invitado de su mesa');
+      $ionicListDelegate.closeOptionButtons()
+    }
+  }
   $scope.reset = function(){
     ListOfGuests.reset();
     $scope.count();
