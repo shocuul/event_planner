@@ -368,7 +368,7 @@ angular.module('starter.controllers', [])
        fileSystem.root.getFile("test.pdf", {create: true}, function(entry) {
           var fileEntry = entry;
           pathTmp = entry.toURL();
-          // console.log("URL del archivo" + pathTmp);
+          //alert(pathTmp);
           // console.log(entry);
 
           entry.createWriter(function(writer) {
@@ -389,14 +389,27 @@ angular.module('starter.controllers', [])
     function(event){
      //console.log( evt.target.error.code );
     });
-    $cordovaFileOpener2.open(
-    cordova.file.documentsDirectory+'/test.pdf',
-    'application/pdf'
-    ).then(function() {
-        // file opened successfully
-    }, function(err) {
-        // An error occurred. Show a message to the user
-    });
+    var currentPlatform = ionic.Platform.platform();
+    if(currentPlatform === 'ios'){
+      $cordovaFileOpener2.open(
+      cordova.file.documentsDirectory+'/test.pdf',
+      'application/pdf'
+      ).then(function() {
+          // file opened successfully
+      }, function(err) {
+          // An error occurred. Show a message to the user
+      });
+    }else{
+      $cordovaFileOpener2.open(
+      cordova.file.externalRootDirectory+'/test.pdf',
+      'application/pdf'
+      ).then(function() {
+          // file opened successfully
+      }, function(err) {
+          // An error occurred. Show a message to the user
+      });
+    }
+
   }
   }
 });
