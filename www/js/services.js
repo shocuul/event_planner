@@ -76,7 +76,9 @@ angular.module('starter.services', [])
       return null;
     },
     remove: function(guest) {
+      total = total - parseInt(guest.numberOfPeople);
       list.splice(list.indexOf(guest), 1);
+      $localStorage.set('totalOfGuest',total);
     },
     reset : function(){
       list.length = 0;

@@ -205,7 +205,7 @@ angular.module('starter.controllers', [])
   }
   $scope.deleteGuest = function(guest){
     var mensaje = $scope.selectedTable.deleteGuest(guest);
-    alert(mensaje);
+    //alert(mensaje);
     ListTable.update();
     ListOfGuests.update();
     $scope.deleteGuestList.hide();
@@ -214,7 +214,7 @@ angular.module('starter.controllers', [])
     var mensaje = $scope.selectedTable.addGuest(guest);
     // var selectedGuest = ListOfGuests.get(guest.familyName);
     //guest.asignTable($scope.selectedTable);
-    alert(mensaje);
+    //alert(mensaje);
     ListTable.update();
     ListOfGuests.update();
     $scope.modalList.hide();
