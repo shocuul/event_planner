@@ -5,7 +5,7 @@
     </ion-header-bar>
     <ion-content class="padding">
         <ul class="list">
-            <li class="item" collection-repeat="guest in listOfGuest | filter:{table:null}" ng-click="asignTable(guest)">
+            <li class="item" collection-repeat="guest in listOfGuest" ng-click="asignTable(guest)">
 
               Invitado: {{guest.familyName}} - No. Personas: {{guest.numberOfPeople}}
             </li>

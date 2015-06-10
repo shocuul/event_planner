@@ -90,6 +90,14 @@ angular.module('starter.controllers', [])
   // test.push(testTable1);
   // test.push(testTable2);
   //console.log(test);
+  $scope.isTable = function(guest){
+    if(guest.table != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  
   $ionicModal.fromTemplateUrl('templates/new-tables.html',{
     scope: $scope
   }).then(function(modal){
