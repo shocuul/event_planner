@@ -7785,6 +7785,14 @@ input[type="text"], input[type="number"] {
 .popover {
   background-color: #131b23 !important; }
 
+.item-input-wrapper {
+  height: 30px; }
+
+#search-box {
+  height: 35px;
+  margin: 0;
+  padding-bottom: 30px; }
+
 .ng-pristine {
   color: #000; }
 
