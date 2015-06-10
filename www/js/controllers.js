@@ -81,7 +81,7 @@ angular.module('starter.controllers', [])
 // ==== Tables Controller
 .controller('TablesCtrl', function($scope,$ionicPopup,ListOfGuests,ListTable,$ionicModal,Table) {
   $scope.listTable = ListTable.all();
-  //console.log($scope.listTable);
+  console.log($scope.listTable);
   $scope.listOfGuest = ListOfGuests.all();
   $scope.selectedTable = null;
   // var test = [];
@@ -91,7 +91,7 @@ angular.module('starter.controllers', [])
   // test.push(testTable2);
   //console.log(test);
   $scope.isTable = function(guest){
-    if(guest.table != null){
+    if(guest.table == null){
       return true;
     }else{
       return false;

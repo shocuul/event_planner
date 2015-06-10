@@ -4,8 +4,15 @@
         <button class="button button-clear button-primary" ng-click="modalList.hide()">Cancelar</button>
     </ion-header-bar>
     <ion-content class="padding">
+        <div id="search-box" class="bar bar-header item-input-inset">
+               <div class="item-input-wrapper">
+                 <i class="icon ion-ios7-search placeholder-icon"></i>
+                 <input type="search" placeholder="Buscar" ng-model="data.searchQuery">
+                 <i class="clear-search icon ion-ios7-close-empty" ng-click="clearSearch()"></i>
+               </div>
+             </div>
         <ul class="list">
-            <li class="item" collection-repeat="guest in listOfGuest" ng-click="asignTable(guest)">
+            <li class="item" ng-repeat="guest in listOfGuest |filter: data.searchQuery track by $index" ng-click="asignTable(guest)" ng-show="isTable(guest)">
 
               Invitado: {{guest.familyName}} - No. Personas: {{guest.numberOfPeople}}
             </li>
