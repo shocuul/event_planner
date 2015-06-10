@@ -7782,16 +7782,23 @@ input[type="text"], input[type="number"] {
 .popup-body input[type="text"], .popup-body input[type="number"] {
   color: #000; }
 
+.item-input-inset {
+  background-color: #131b23; }
+
 .popover {
   background-color: #131b23 !important; }
 
 .item-input-wrapper {
   height: 30px; }
 
+.bar.item-input-inset .item-input-wrapper {
+  background: #361134; }
+
 #search-box {
   height: 35px;
   margin: 0;
-  padding-bottom: 30px; }
+  padding-bottom: 30px;
+  border-bottom: 1px solid #8A1C7C; }
 
 .ng-pristine {
   color: #000; }

@@ -157,16 +157,23 @@ input[type="text"],input[type="number"]{
     color:#000;
   }
 }
+.item-input-inset{
+  background-color: $fondo-azul;
+}
 .popover{
   background-color: $fondo-azul !important;
 }
 .item-input-wrapper{
   height: 30px;
 }
+.bar.item-input-inset .item-input-wrapper{
+  background: $morado-obscuro;
+}
 #search-box{
   height: 35px;
   margin: 0;
   padding-bottom: 30px;
+  border-bottom: 1px solid $morado-claro;
 }
 .ng-pristine{
   color: #000;
